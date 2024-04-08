@@ -3,18 +3,21 @@ package main
 import (
 	"fmt"
 	"log"
-	"net/http"
-
-	"github.com/ebpearls/gorest/handler"
 )
 
 func main() {
-	// http.Get("/", func(w http.ResponseWriter, err error) {
-	// 	//fmt.Println("Server is running")
+	s, err := NewPostgresStore()
+	if err != nil {
+		log.Panic(err)
+	}
 
-	// })
+	if err := s.Init(); err != nil {
+		fmt.Println("Error while creating table", err)
+	}
 
-	http.HandleFunc("/bar", handler.HandleRequest)
-	fmt.Println("Server is running")
-	log.Fatal(http.ListenAndServe(":3000", nil))
+	server := StartAPI(":6000", s)
+	server.Run()
+
+	fmt.Println("Server is listening at port :6000")
+
 }
