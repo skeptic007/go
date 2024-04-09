@@ -10,6 +10,7 @@ import (
 )
 
 func (s *NewApiStarter) GetAllUsers(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("hell")
 	users, err := s.store.GetUsers()
 	if err != nil {
 		WriteJSON(w, http.StatusInternalServerError, err)

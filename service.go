@@ -2,6 +2,9 @@ package main
 
 import (
 	"database/sql"
+	"fmt"
+
+	_ "github.com/lib/pq"
 )
 
 type PostgresStore struct {
@@ -15,8 +18,14 @@ type UserInterface interface {
 }
 
 func NewPostgresStore() (*PostgresStore, error) {
-	connStr := "user=postgres dbname=postgres password=Password sslmode=disable"
-	db, err := sql.Open("postgres", connStr)
+	//connStr := "user=postgres dbname=postgres password=Password sslmode=disable"
+	//db, err := sql.Open("postgres", connStr)
+	//fmt.Println("hell db")
+
+	db, err := sql.Open("postgres", "postgres://gqvcemiw:fXTZChMfu9tHic7BGdcye6NuFsKVyGHz@tiny.db.elephantsql.com/gqvcemiw?sslmode=disable")
+
+	fmt.Println(db, err)
+	//fmt.Println(db, err)
 	if err != nil {
 		return nil, err
 	}
@@ -35,12 +44,18 @@ func (s *PostgresStore) Init() error {
 }
 
 func (s *PostgresStore) createAccountTable() error {
-	query := `create table if not exists user (
-		id serial primary key,
-		name varchar(100),
-		email varchar(255),
-		dob int
-	)`
+	// query := `create table if not exists user (
+	// 	id serial primary key,
+	// 	name varchar(100),
+	// 	email varchar(255),
+	// 	dob int
+	// )`
+
+	query := `CREATE TABLE IF NOT EXISTS cars (
+		brand VARCHAR(255),
+		model VARCHAR(255),
+		year INT
+	  );`
 
 	_, err := s.db.Exec(query)
 	return err

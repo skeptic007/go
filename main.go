@@ -6,6 +6,7 @@ import (
 )
 
 func main() {
+	//fmt.Println("hell")
 	s, err := NewPostgresStore()
 	if err != nil {
 		log.Panic(err)
@@ -15,9 +16,10 @@ func main() {
 		fmt.Println("Error while creating table", err)
 	}
 
-	server := StartAPI(":6000", s)
-	server.Run()
+	server := StartAPI("6000", s)
 
 	fmt.Println("Server is listening at port :6000")
+
+	server.Run()
 
 }

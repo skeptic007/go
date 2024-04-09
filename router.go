@@ -2,8 +2,6 @@ package main
 
 import (
 	"net/http"
-
-	"github.com/gorilla/mux"
 )
 
 type NewApiStarter struct {
@@ -19,10 +17,11 @@ func StartAPI(addr string, store *PostgresStore) *NewApiStarter {
 }
 
 func (s *NewApiStarter) Run() {
-	r := mux.NewRouter()
-	r.HandleFunc("/users", s.GetAllUsers).Methods("GET")
-	r.HandleFunc("/user", s.CreateUserOrGetUser).Methods("GET", "POST")
-	r.HandleFunc("/user/:id", s.GetUserById).Methods("GET")
+	//r := mux.NewRouter()
+	//r.HandleFunc("/users", s.GetAllUsers)
+	//r.HandleFunc("/user", s.CreateUserOrGetUser).Methods("GET", "POST")
+	//r.HandleFunc("/user/:id", s.GetUserById).Methods("GET")
+	http.HandleFunc("/bar", s.GetAllUsers)
 
-	http.ListenAndServe(s.Addr, r)
+	http.ListenAndServe(s.Addr, nil)
 }
