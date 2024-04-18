@@ -16,7 +16,7 @@ func main() {
 		fmt.Println("Error while creating table", err)
 	}
 
-	server := StartAPI("6000", s)
+	server := StartAPI(":6000", nil)
 
 	fmt.Println("Server is listening at port :6000")
 
