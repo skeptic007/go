@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -20,10 +21,13 @@ func StartAPI(addr string, store *PostgresStore) *NewApiStarter {
 
 func (s *NewApiStarter) Run() {
 	r := mux.NewRouter()
+	//fmt.Println("reached")
+
 	//r.HandleFunc("/users", s.GetAllUsers)
-	//r.HandleFunc("/user", s.CreateUserOrGetUser).Methods("GET", "POST")
+	r.HandleFunc("/user", s.CreateUserOrGetUser).Methods("GET", "POST")
 	//r.HandleFunc("/user/:id", s.GetUserById).Methods("GET")
-	http.HandleFunc("/bar", s.GetAllUsers)
+	r.HandleFunc("/bar", s.GetAllUsers).Methods("GET")
+	fmt.Println("reached")
 
 	http.ListenAndServe(s.Addr, r)
 }

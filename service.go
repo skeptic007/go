@@ -51,10 +51,11 @@ func (s *PostgresStore) createAccountTable() error {
 	// 	dob int
 	// )`
 
-	query := `CREATE TABLE IF NOT EXISTS cars (
-		brand VARCHAR(255),
-		model VARCHAR(255),
-		year INT
+	query := `CREATE TABLE IF NOT EXISTS users (
+		id serial not null primary key,
+		name VARCHAR(255),
+		email VARCHAR(255),
+		dob INT
 	  );`
 
 	_, err := s.db.Exec(query)
@@ -62,7 +63,7 @@ func (s *PostgresStore) createAccountTable() error {
 }
 
 func (s *PostgresStore) CreateUser(user *User) error {
-	query := `insert into user (name, email, dob) values ($1, $2, $3)`
+	query := `insert into users (name, email, dob) values ($1, $2, $3)`
 	_, err := s.db.Query(
 		query,
 		user.Name,
@@ -76,7 +77,7 @@ func (s *PostgresStore) CreateUser(user *User) error {
 }
 
 func (s *PostgresStore) GetUser(id int) (*User, error) {
-	query := `select * from user where id = $1`
+	query := `select * from users where id = $1`
 
 	rows, err := s.db.Query(query, id)
 	if err != nil {
@@ -89,9 +90,12 @@ func (s *PostgresStore) GetUser(id int) (*User, error) {
 }
 
 func (s *PostgresStore) GetUsers() ([]*User, error) {
-
 	userData := []*User{}
-	rows, err := s.db.Query("Select * from user")
+	query := `select * from users`
+	rows, err := s.db.Query(query)
+	fmt.Println("err", err)
+	fmt.Println("rows", rows)
+
 	if err != nil {
 		return nil, err
 	}

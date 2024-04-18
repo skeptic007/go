@@ -10,7 +10,7 @@ import (
 )
 
 func (s *NewApiStarter) GetAllUsers(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("hell")
+
 	users, err := s.store.GetUsers()
 	if err != nil {
 		WriteJSON(w, http.StatusInternalServerError, err)
@@ -55,7 +55,7 @@ func (s *NewApiStarter) CreateUserOrGetUser(w http.ResponseWriter, r *http.Reque
 
 func WriteJSON(w http.ResponseWriter, status int, v any) error {
 	w.Header().Add("Content-Type", "application/json")
-	w.WriteHeader(status)
+	//w.WriteHeader(status)
 
 	return json.NewEncoder(w).Encode(v)
 }
